@@ -4,28 +4,26 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 
 const EventList = ({ events }) => {
   return (
-    <div>
-      <h2>Event List</h2>
-      <Row>
-        {events.map((event) => (
-          <Col md={4} key={event.id} className="mb-3">
-            <Card>
-              <Card.Body>
-                <Card.Title>{event.name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  {event.date}
-                </Card.Subtitle>
-                <Card.Text>{event.description}</Card.Text>
-                <Link to={`/event/${event.id}`}>
-                  <Button variant="primary">View Details</Button>
-                </Link>
-              </Card.Body>
-              <Card.Footer className="text-muted">{event.location}</Card.Footer>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+    <Row>
+      {events.map((event) => (
+        <Col md={6} lg={4} key={event.id} className="mb-4">
+          <Card>
+            <Card.Body>
+              <Card.Title>{event.name}</Card.Title>
+              <Card.Text>
+                <strong>Date:</strong> {event.date}
+              </Card.Text>
+              <Card.Text>
+                <strong>Location:</strong> {event.location}
+              </Card.Text>
+              <Link to={`/event/${event.id}`} state={event}>
+                <Button variant="primary">View Details</Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        </Col>
+      ))}
+    </Row>
   );
 };
 

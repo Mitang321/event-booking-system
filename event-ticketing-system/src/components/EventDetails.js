@@ -1,98 +1,70 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import { Card, Button, Row, Col } from "react-bootstrap";
-import { events } from "../data/events";
 
-function EventDetails() {
+const EventDetails = ({ events, onUpdateEvent }) => {
   const { id } = useParams();
-  const [event, setEvent] = useState(null);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const location = useLocation();
+  const event =
+    events.find((event) => event.id === parseInt(id)) || location.state;
 
-  useEffect(() => {
-    const fetchedEvent = events.find((e) => e.id === parseInt(id));
-    if (fetchedEvent) {
-      setEvent(fetchedEvent);
-    } else {
-      console.error("Event not found");
-    }
-  }, [id]);
+  const [selectedSeats, setSelectedSeats] = useState(Array(50).fill(false));
 
   const handleSeatClick = (index) => {
-    if (event.reserved[index]) return;
-
-    setSelectedSeats((prevSelected) => {
-      const newSelection = [...prevSelected];
-      if (newSelection.includes(index)) {
-        newSelection.splice(newSelection.indexOf(index), 1);
-      } else {
-        newSelection.push(index);
-      }
-      return newSelection;
-    });
+    const updatedSeats = [...selectedSeats];
+    updatedSeats[index] = !updatedSeats[index];
+    setSelectedSeats(updatedSeats);
   };
 
-  const handleReserveSeats = () => {
-    if (!event) return;
-
-    const updatedSeats = [...event.seats];
-    const updatedReserved = [...event.reserved];
-
-    selectedSeats.forEach((index) => {
-      updatedSeats[index] = true;
-      updatedReserved[index] = true;
-    });
-
-    setEvent({ ...event, seats: updatedSeats, reserved: updatedReserved });
-    setSelectedSeats([]);
+  const handleBookSeats = () => {
+    const updatedEvent = { ...event, reserved: selectedSeats };
+    onUpdateEvent(updatedEvent);
+    alert("Seats booked successfully!");
   };
 
-  if (!event) return <div>Loading...</div>;
+  if (!event) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="event-details">
-      <Card className="mb-3">
-        <Card.Body>
-          <Card.Title>{event.name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
-            {event.date}
-          </Card.Subtitle>
-          <Card.Text>{event.description}</Card.Text>
-          <Button variant="primary" href="/">
-            Back to Events
-          </Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">{event.location}</Card.Footer>
-      </Card>
-
-      <h3>Select Seats</h3>
-      <Row>
-        {event.seats.map((_, index) => (
-          <Col xs={2} className="mb-2" key={index}>
-            <Button
-              variant={
-                event.reserved[index]
-                  ? "secondary"
-                  : selectedSeats.includes(index)
-                  ? "success"
-                  : "outline-secondary"
-              }
-              onClick={() => handleSeatClick(index)}
-              disabled={event.reserved[index]}
-            >
-              {index + 1}
-            </Button>
-          </Col>
-        ))}
-      </Row>
-      <Button
-        variant="primary"
-        onClick={handleReserveSeats}
-        disabled={selectedSeats.length === 0}
-      >
-        Reserve Seats
-      </Button>
-    </div>
+    <Card className="mb-4">
+      <Card.Body>
+        <Card.Title>{event.name}</Card.Title>
+        <Card.Text>
+          <strong>Date:</strong> {event.date}
+        </Card.Text>
+        <Card.Text>
+          <strong>Location:</strong> {event.location}
+        </Card.Text>
+        <Card.Text>
+          <strong>Description:</strong> {event.description}
+        </Card.Text>
+        <h5>Seat Selection:</h5>
+        <Row>
+          {event.reserved.map((isReserved, index) => (
+            <Col key={index} xs={2} className="mb-2">
+              <Button
+                variant={
+                  isReserved
+                    ? "danger"
+                    : selectedSeats[index]
+                    ? "success"
+                    : "secondary"
+                }
+                disabled={isReserved}
+                onClick={() => handleSeatClick(index)}
+              >
+                {index + 1}
+              </Button>
+            </Col>
+          ))}
+        </Row>
+        <Button variant="primary" className="mt-4" onClick={handleBookSeats}>
+          Book Selected Seats
+        </Button>
+      </Card.Body>
+    </Card>
   );
-}
+};
 
 export default EventDetails;
