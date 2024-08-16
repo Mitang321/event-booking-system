@@ -7,3 +7,25 @@ footer {
   bottom: 0;
   width: 100%;
 }
+.event-details {
+  margin-top: 20px;
+}
+
+.event-details .btn {
+  width: 100%;
+}
+
+.event-details .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.event-details .btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.event-details .btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}

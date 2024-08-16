@@ -5,6 +5,8 @@ export const events = [
     date: "2024-09-15",
     location: "New Delhi",
     description: "A grand music concert featuring best singers",
+    seats: Array(50).fill(false),
+    reserved: Array(50).fill(false),
   },
   {
     id: 2,
@@ -13,6 +15,8 @@ export const events = [
     location: "Banglore",
     description:
       "A conference discussing the latest in technology and innovation.",
+    seats: Array(50).fill(false),
+    reserved: Array(50).fill(false),
   },
   {
     id: 3,
@@ -21,5 +25,7 @@ export const events = [
     location: "Mumbai",
     description:
       "A festival showcasing diverse cuisines from around the world.",
+    seats: Array(50).fill(false),
+    reserved: Array(50).fill(false),
   },
 ];
