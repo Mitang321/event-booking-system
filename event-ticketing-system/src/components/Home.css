@@ -1,0 +1,26 @@
+.home {
+  padding-top: 50px;
+}
+
+.hero {
+  background-image: url("https://t3.ftcdn.net/jpg/05/21/03/02/360_F_521030235_8JAy2Dy1fGQ2vJVN9ODnWSDqoPUoqVXz.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+}
+
+.hero p {
+  font-size: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+}
+
+.carousel-item img {
+  height: 400px;
+  object-fit: cover;
+}
