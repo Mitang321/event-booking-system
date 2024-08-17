@@ -6,6 +6,7 @@ const AddEvent = ({ onAddEvent }) => {
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
+  const [ticketPrice, setTicketPrice] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,6 +16,7 @@ const AddEvent = ({ onAddEvent }) => {
       date,
       location,
       description,
+      ticketPrice: parseFloat(ticketPrice),
       seats: Array(50).fill(false),
       reserved: Array(50).fill(false),
     };
@@ -23,6 +25,7 @@ const AddEvent = ({ onAddEvent }) => {
     setDate("");
     setLocation("");
     setDescription("");
+    setTicketPrice("");
   };
 
   return (
@@ -66,6 +69,16 @@ const AddEvent = ({ onAddEvent }) => {
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formTicketPrice" className="mb-3">
+            <Form.Label>Ticket Price (₹)</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter ticket price"
+              value={ticketPrice}
+              onChange={(e) => setTicketPrice(e.target.value)}
             />
           </Form.Group>
 

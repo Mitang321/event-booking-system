@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, Row, Col, Alert } from "react-bootstrap";
 
 const EventDetails = ({ events, onUpdateEvent }) => {
   const { id } = useParams();
@@ -8,19 +8,36 @@ const EventDetails = ({ events, onUpdateEvent }) => {
   const event =
     events.find((event) => event.id === parseInt(id)) || location.state;
 
-  const [selectedSeats, setSelectedSeats] = useState(Array(50).fill(false));
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [totalCost, setTotalCost] = useState(0);
 
-  const handleSeatClick = (index) => {
-    const updatedSeats = [...selectedSeats];
-    updatedSeats[index] = !updatedSeats[index];
-    setSelectedSeats(updatedSeats);
+  const seating = Array(5).fill(Array(10).fill(false));
+  const handleSeatClick = (rowIndex, seatIndex) => {
+    const seatId = `${rowIndex}-${seatIndex}`;
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
+    } else {
+      setSelectedSeats([...selectedSeats, seatId]);
+    }
   };
 
-  const handleBookSeats = () => {
-    const updatedEvent = { ...event, reserved: selectedSeats };
-    onUpdateEvent(updatedEvent);
-    alert("Seats booked successfully!");
+  const handleBookTickets = () => {
+    if (selectedSeats.length > 0) {
+      const updatedEvent = {
+        ...event,
+        reserved: event.reserved + selectedSeats.length,
+      };
+      onUpdateEvent(updatedEvent);
+      alert(`Tickets booked successfully! Total cost: ₹${totalCost}`);
+    }
   };
+
+  React.useEffect(() => {
+    if (event) {
+      const cost = selectedSeats.length * event.ticketPrice;
+      setTotalCost(cost);
+    }
+  }, [selectedSeats, event]);
 
   if (!event) {
     return <div>Loading...</div>;
@@ -39,28 +56,44 @@ const EventDetails = ({ events, onUpdateEvent }) => {
         <Card.Text>
           <strong>Description:</strong> {event.description}
         </Card.Text>
-        <h5>Seat Selection:</h5>
-        <Row>
-          {event.reserved.map((isReserved, index) => (
-            <Col key={index} xs={2} className="mb-2">
-              <Button
-                variant={
-                  isReserved
-                    ? "danger"
-                    : selectedSeats[index]
-                    ? "success"
-                    : "secondary"
-                }
-                disabled={isReserved}
-                onClick={() => handleSeatClick(index)}
-              >
-                {index + 1}
-              </Button>
-            </Col>
-          ))}
-        </Row>
-        <Button variant="primary" className="mt-4" onClick={handleBookSeats}>
-          Book Selected Seats
+        <Card.Text>
+          <strong>Ticket Price:</strong> ₹{event.ticketPrice}
+        </Card.Text>
+
+        <div className="mt-4">
+          <h5>Select Your Seats:</h5>
+          <div className="seating-chart">
+            {seating.map((row, rowIndex) => (
+              <Row key={rowIndex}>
+                {row.map((seat, seatIndex) => {
+                  const seatId = `${rowIndex}-${seatIndex}`;
+                  return (
+                    <Col key={seatId}>
+                      <Button
+                        variant={
+                          selectedSeats.includes(seatId)
+                            ? "success"
+                            : "outline-secondary"
+                        }
+                        onClick={() => handleSeatClick(rowIndex, seatIndex)}
+                        className="seat-button mb-2"
+                      >
+                        {seatId}
+                      </Button>
+                    </Col>
+                  );
+                })}
+              </Row>
+            ))}
+          </div>
+        </div>
+
+        <Alert variant="info" className="mt-4">
+          Total Cost: ₹{totalCost}
+        </Alert>
+
+        <Button variant="primary" className="mt-4" onClick={handleBookTickets}>
+          Book Tickets
         </Button>
       </Card.Body>
     </Card>

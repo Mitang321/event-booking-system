@@ -62,3 +62,14 @@ button.btn-secondary {
   background-color: #6c757d;
   border-color: #6c757d;
 }
+.seating-chart {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+}
+
+.seat-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+}
