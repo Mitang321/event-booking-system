@@ -73,3 +73,14 @@ button.btn-secondary {
   padding: 10px;
   font-size: 14px;
 }
+.seating-chart {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+}
+
+.seat-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+}
