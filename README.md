@@ -25,3 +25,10 @@ Users can create a account or can login to see their profile and all the tickets
 ![image](https://github.com/user-attachments/assets/c513e52a-3f2f-4c6b-9bc0-230097903310)
 ![image](https://github.com/user-attachments/assets/f1fab855-866a-4dab-b401-2e96ee8d4802)
 ![image](https://github.com/user-attachments/assets/e5937503-ba5e-4d08-9c5a-9155f6e48414)
+
+## Installation
+
+1: `Clone the Repository`
+2: `cd Breadcrumbsevent-booking-system`
+ 3. `npm install` 
+4. `npm start`
