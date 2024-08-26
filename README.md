@@ -2,6 +2,11 @@
 
 ![image](https://github.com/user-attachments/assets/d752064e-4094-4b1d-a0bc-959dd6b1997b)
 
+## Live Preview
+
+[Live Preview](https://event-booking-system-ten.vercel.app/)
+
+
 ## Event Creation:
 
 Users can create events under add events
